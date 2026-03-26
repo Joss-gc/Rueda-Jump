@@ -1,0 +1,60 @@
+/* Oculta la barra de navegación pública si estamos dentro del panel de admin */
+body:has(app-inventario) app-navbar,
+body:has(app-calendario) app-navbar,
+body:has(app-dashboard) app-navbar,
+body:has(app-clientes) app-navbar,
+body:has(app-solicitudes) app-navbar,
+body:has(app-inventario) nav.navbar,
+body:has(app-calendario) nav.navbar,
+body:has(app-dashboard) nav.navbar,
+body:has(app-clientes) nav.navbar,
+body:has(app-solicitudes) nav.navbar {
+  display: none !important;
+}
+/* ========================================================
+   🚩 BLINDAJE DE RESPONSIVA GLOBAL PARA RUEDA JUMP (ADMIN)
+   ======================================================== */
+
+/* 1. Evita que la pantalla se haga ancha en celulares */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* 2. Fuerza a que TODO el texto súper largo se ajuste o se corte */
+.text-truncate-mobile {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Ajusta según lo necesites */
+}
+
+/* 3. Asegura que las tablas siempre hagan "scroll" en celular */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Suaviza el scroll en iPhone */
+  margin-bottom: 1rem;
+}
+
+/* 4. Evita que las tarjetas se rompan en pantallas pequeñas */
+.card {
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* 5. Asegura que los modales (como el de reservas) se adapten al 100% en celular */
+@media (max-width: 768px) {
+  .modal-dialog-custom {
+    margin: 0.5rem !important;
+    width: calc(100% - 1rem) !important;
+  }
+  .table-responsive table th, 
+  .table-responsive table td {
+    white-space: nowrap; /* Evita que las tablas se hagan altas y delgadas */
+    font-size: 0.85rem; /* Letra un pelín más chiquita en móvil */
+  }
+  .d-md-none.text-center.mt-3 h4 {
+    font-size: 1.25rem !important;
+  }
+}
