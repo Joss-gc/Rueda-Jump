@@ -2,13 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs'); // 🚩 NUEVO: Herramienta para leer/crear carpetas
+const fs = require('fs');
 require('dotenv').config();
 
+mongoose.set('bufferCommands', false);
+
 const equipoRoutes = require('./routes/equipoRoutes');
-const clienteRoutes = require('./routes/clienteRoutes'); 
-const reservaRoutes = require('./routes/reservaRoutes'); 
-const authRoutes = require('./routes/authRoutes'); 
+const clienteRoutes = require('./routes/clienteRoutes');
+const reservaRoutes = require('./routes/reservaRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const configuredOrigins = [
@@ -22,18 +24,15 @@ const configuredOrigins = [
 
 const allowNetlifyPreviews = process.env.ALLOW_NETLIFY_PREVIEWS === 'true';
 
-// 🚩 BLINDAJE: Crear carpetas automáticamente si no existen
-// Esto evita el 99% de los errores al subir archivos o comprobantes
 const carpetasRequeridas = ['public/img', 'public/perfiles', 'public/comprobantes'];
 carpetasRequeridas.forEach(carpeta => {
   const rutaCompleta = path.join(__dirname, carpeta);
   if (!fs.existsSync(rutaCompleta)) {
     fs.mkdirSync(rutaCompleta, { recursive: true });
-    console.log(`📁 Carpeta creada automáticamente: ${carpeta}`);
+    console.log(`Carpeta creada automaticamente: ${carpeta}`);
   }
 });
 
-// Configuración de CORS para Angular
 app.use(cors({
   origin(origin, callback) {
     if (!origin) return callback(null, true);
@@ -49,43 +48,57 @@ app.use(cors({
     return callback(new Error(`Origen no permitido por CORS: ${origin}`));
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
 app.use('/perfiles', express.static(path.join(__dirname, 'public/perfiles')));
 app.use('/comprobantes', express.static(path.join(__dirname, 'public/comprobantes')));
 
-// Rutas de la API
 app.use('/api/equipos', equipoRoutes);
-app.use('/api/clientes', clienteRoutes); 
-app.use('/api/reservas', reservaRoutes); 
-app.use('/api/auth', authRoutes); 
+app.use('/api/clientes', clienteRoutes);
+app.use('/api/reservas', reservaRoutes);
+app.use('/api/auth', authRoutes);
+
 app.get('/', (_req, res) => {
   res.json({ servicio: 'Rueda Jump API', estado: 'ok' });
 });
+
 app.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
-
-// Conexión a MongoDB
-const mongoURI = process.env.MONGO_URI || 'mongodb+srv://jairher79_db_user:lbcR7DFyrjMRdS15@cluster0.hxhqufv.mongodb.net/?appName=Cluster0'; 
-
-mongoose.connect(mongoURI, {
-  serverSelectionTimeoutMS: 30000,
-})
-  .then(() => console.log('✅ ¡Conectado a MongoDB (127.0.0.1)!'))
-  .catch(err => {
-    console.error('❌ Error crítico en MongoDB:', err.message);
+  const mongoConnected = mongoose.connection.readyState === 1;
+  res.status(mongoConnected ? 200 : 503).json({
+    status: mongoConnected ? 'ok' : 'degraded',
+    mongoConnected,
   });
-
-// Iniciar el servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Servidor Rueda Jump corriendo en http://127.0.0.1:${PORT}`);
 });
+
+const mongoURI = process.env.MONGO_URI;
+const PORT = process.env.PORT || 3000;
+
+if (!mongoURI) {
+  console.error('Falta configurar la variable de entorno MONGO_URI.');
+  process.exit(1);
+}
+
+async function startServer() {
+  try {
+    await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 30000,
+    });
+
+    console.log('Conectado a MongoDB Atlas.');
+
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Servidor Rueda Jump corriendo en el puerto ${PORT}`);
+    });
+  } catch (err) {
+    console.error('Error critico en MongoDB:', err.message);
+    process.exit(1);
+  }
+}
+
+startServer();

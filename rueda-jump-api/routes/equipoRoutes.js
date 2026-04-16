@@ -2,11 +2,16 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const Equipo = require('../models/equipo');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/img'); 
+    const uploadDir = path.join(__dirname, '../public/img');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir); 
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -44,6 +49,7 @@ router.post('/', upload.single('imagen'), async (req, res) => {
     const nuevoEquipo = await equipo.save();
     res.status(201).json(nuevoEquipo);
   } catch (err) {
+    console.error('Error al crear equipo:', err);
     res.status(400).json({ message: err.message });
   }
 });
@@ -75,6 +81,7 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
     if (!equipoActualizado) return res.status(404).json({ message: "No encontrado" });
     res.json(equipoActualizado);
   } catch (err) {
+    console.error('Error al actualizar equipo:', err);
     res.status(400).json({ message: err.message });
   }
 });
