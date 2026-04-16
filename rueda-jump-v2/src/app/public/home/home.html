@@ -88,7 +88,7 @@
         <div class="col-md-4 col-sm-6" *ngFor="let prod of productosDestacados">
           <div class="card h-100 shadow-sm border-0 overflow-hidden rounded-4 hover-lift" [ngClass]="prod.stock <= 0 ? 'opacity-75' : ''">
             <div class="bg-light text-center position-relative" style="height: 220px;">
-              <img [src]="prod.imgUrl ? 'http://127.0.0.1:3000' + prod.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
+              <img [src]="prod.imgUrl ? getImagenUrl(prod.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
                    class="w-100 h-100" [ngStyle]="{'filter': prod.stock <= 0 ? 'grayscale(100%)' : 'none'}" style="object-fit: cover;" alt="Equipo">
               
               <span class="position-absolute top-0 end-0 m-3 badge bg-danger rounded-pill shadow-sm">TOP</span>
@@ -163,7 +163,7 @@
         <button class="btn-close-custom shadow-sm" (click)="cerrarModalReserva()"><i class="bi bi-x-lg"></i></button>
         
         <div class="col-12 col-md-5 bg-light position-relative d-flex flex-column p-0" style="min-height: 250px; overflow: hidden;">
-          <img [src]="productoSeleccionado?.imgUrl ? 'http://127.0.0.1:3000' + productoSeleccionado.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
+          <img [src]="productoSeleccionado?.imgUrl ? getImagenUrl(productoSeleccionado.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
                class="img-fluid w-100" style="object-fit: cover; flex-grow: 1; min-height: 100%;">
           
           <div class="position-absolute bottom-0 start-0 w-100 p-3 p-md-4 d-none d-md-block" style="background: linear-gradient(transparent, rgba(0,0,0,0.9));">

@@ -200,10 +200,10 @@
       </div>
       <div class="modal-body p-0 bg-light text-center position-relative">
         <img *ngIf="solicitudSeleccionada?.comprobanteUrl && esImagen(solicitudSeleccionada?.comprobanteUrl)" 
-             [src]="'http://127.0.0.1:3000' + solicitudSeleccionada?.comprobanteUrl" 
+             [src]="getArchivoUrl(solicitudSeleccionada?.comprobanteUrl)" 
              class="img-fluid" style="max-height: 70vh;">
         <iframe *ngIf="solicitudSeleccionada?.comprobanteUrl && !esImagen(solicitudSeleccionada?.comprobanteUrl)" 
-                [src]="'http://127.0.0.1:3000' + solicitudSeleccionada?.comprobanteUrl" 
+                [src]="getArchivoUrl(solicitudSeleccionada?.comprobanteUrl)" 
                 width="100%" height="500px" style="border: none;"></iframe>
         <div *ngIf="!solicitudSeleccionada?.comprobanteUrl" class="p-5 text-muted fw-bold">
           <i class="bi bi-exclamation-triangle-fill fs-1 d-block mb-3 text-warning"></i>

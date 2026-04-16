@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EquipoService } from '../services/equipos.service'; 
+import { buildAssetUrl } from '../../shared/api.config';
 
 declare var bootstrap: any;
 
@@ -152,5 +153,9 @@ export class Inventario implements OnInit {
     } else {
       alert(mensaje); 
     }
+  }
+
+  getImagenUrl(path?: string | null): string {
+    return buildAssetUrl(path);
   }
 }

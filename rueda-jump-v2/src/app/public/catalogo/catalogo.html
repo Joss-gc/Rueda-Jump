@@ -35,7 +35,7 @@
         <div class="col-12 col-sm-6 col-lg-4" *ngFor="let prod of productosFiltrados">
           <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden hover-lift" [ngClass]="prod.stock <= 0 ? 'opacity-75' : ''">
             <div class="position-relative bg-light" style="height: 200px; overflow: hidden;">
-              <img [src]="prod.imgUrl ? 'http://127.0.0.1:3000' + prod.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=600&q=80'" class="w-100 h-100" [ngStyle]="{'filter': prod.stock <= 0 ? 'grayscale(100%)' : 'none'}" style="object-fit: cover;">
+              <img [src]="prod.imgUrl ? getImagenUrl(prod.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=600&q=80'" class="w-100 h-100" [ngStyle]="{'filter': prod.stock <= 0 ? 'grayscale(100%)' : 'none'}" style="object-fit: cover;">
               <span class="badge position-absolute top-0 start-0 m-3 px-3 py-2 shadow rounded-pill fw-bold" [ngClass]="prod.stock > 0 ? 'bg-warning text-dark' : 'bg-danger text-white'">
                 {{ prod.stock > 0 ? (prod.categoria || 'Equipo') : 'Agotado Temporalmente' }}
               </span>
@@ -68,7 +68,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable mx-2 mx-md-auto">
       <div class="modal-content border-0 shadow-2xl rounded-4 overflow-hidden animate__animated animate__zoomIn animate__faster">
         <div class="position-relative bg-dark" style="height: 280px;">
-          <img [src]="productoSeleccionado?.imgUrl ? 'http://127.0.0.1:3000' + productoSeleccionado.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=1200&q=80'" class="w-100 h-100" style="object-fit: cover; opacity: 0.85;">
+          <img [src]="productoSeleccionado?.imgUrl ? getImagenUrl(productoSeleccionado.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=1200&q=80'" class="w-100 h-100" style="object-fit: cover; opacity: 0.85;">
           <div class="position-absolute bottom-0 w-100 p-4" style="background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);">
              <span class="badge bg-warning text-dark px-3 py-1 mb-2 fw-bold shadow-sm">{{productoSeleccionado?.categoria || 'General'}}</span>
              <h2 class="text-white fw-bold m-0 text-shadow">{{ productoSeleccionado?.nombre }}</h2>
@@ -102,7 +102,7 @@
         <button class="btn-close-custom shadow-sm" (click)="cerrarModalReserva()"><i class="bi bi-x-lg"></i></button>
         
         <div class="col-12 col-md-5 bg-light position-relative d-flex flex-column p-0" style="min-height: 250px; overflow: hidden;">
-          <img [src]="productoSeleccionado?.imgUrl ? 'http://127.0.0.1:3000' + productoSeleccionado.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
+          <img [src]="productoSeleccionado?.imgUrl ? getImagenUrl(productoSeleccionado.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
                class="img-fluid w-100" style="object-fit: cover; flex-grow: 1; min-height: 100%;">
           
           <div class="position-absolute bottom-0 start-0 w-100 p-3 p-md-4 d-none d-md-block" style="background: linear-gradient(transparent, rgba(0,0,0,0.9));">

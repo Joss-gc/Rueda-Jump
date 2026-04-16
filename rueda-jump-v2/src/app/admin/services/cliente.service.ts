@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { buildApiUrl } from '../../shared/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  private apiUrl = 'http://127.0.0.1:3000/api/clientes';
+  private apiUrl = buildApiUrl('/api/clientes');
 
   constructor(private http: HttpClient) { }
 

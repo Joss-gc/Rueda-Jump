@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ClienteService } from '../../admin/services/cliente.service';
 import { ReservaService } from '../../admin/services/reserva.service';
 import { EquipoService } from '../../admin/services/equipos.service'; 
+import { buildAssetUrl } from '../../shared/api.config';
 
 declare var bootstrap: any;
 
@@ -91,7 +92,7 @@ export class Perfil implements OnInit {
   getFotoUrl(): string {
     if (!this.miPerfil || !this.miPerfil.fotoUrl) return '';
     if (this.miPerfil.fotoUrl.startsWith('http')) return `${this.miPerfil.fotoUrl.split('?')[0]}?t=${this.fotoTimestamp}`;
-    return `http://127.0.0.1:3000${this.miPerfil.fotoUrl}?t=${this.fotoTimestamp}`;
+    return `${buildAssetUrl(this.miPerfil.fotoUrl)}?t=${this.fotoTimestamp}`;
   }
 
   abrirModal() {

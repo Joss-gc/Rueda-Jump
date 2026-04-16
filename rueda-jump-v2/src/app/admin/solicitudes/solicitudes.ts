@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReservaService } from '../services/reserva.service';
+import { buildAssetUrl } from '../../shared/api.config';
 import { EquipoService } from '../services/equipos.service'; // 🚩 IMPORTAMOS EL SERVICIO DE EQUIPOS
 
 declare var bootstrap: any;
@@ -154,5 +155,9 @@ export class Solicitudes implements OnInit {
       event.target.value = ''; 
       this.reservaService.subirComprobantePago(idReserva, file).subscribe(() => this.cargarSolicitudes());
     }
+  }
+
+  getArchivoUrl(path?: string | null): string {
+    return buildAssetUrl(path);
   }
 }

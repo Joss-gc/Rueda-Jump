@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { buildApiUrl } from '../../shared/api.config';
 
 // 🚩 IMPORTAMOS EL SERVICIO DE CLIENTES PARA EL AUTOCOMPLETADO
 import { ClienteService } from '../../admin/services/cliente.service'; 
@@ -12,7 +13,7 @@ import { ClienteService } from '../../admin/services/cliente.service';
   providedIn: 'root'
 })
 export class ReservaService {
-  private apiUrl = 'http://127.0.0.1:3000/api/reservas';
+  private apiUrl = buildApiUrl('/api/reservas');
   constructor(private http: HttpClient) { }
   
   agregarReserva(reserva: any): Observable<any> {
