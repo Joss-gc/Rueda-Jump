@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ReservaService } from '../services/reserva.service';
 import { ClienteService } from '../services/cliente.service'; 
 import { EquipoService } from '../services/equipos.service'; 
+import { buildAppUrl } from '../../shared/api.config';
 
 @Component({
   selector: 'app-calendario',
@@ -139,7 +140,7 @@ export class Calendario implements OnInit {
   actualizarLogistica(renta: any, nuevoEstado: string) {
     
     let mensaje = '';
-    const linkRastreo = `http://localhost:4200/rastreo?id=${renta._id}`;
+    const linkRastreo = buildAppUrl(`/rastreo?id=${renta._id}`);
 
     switch(nuevoEstado) {
       case 'Preparando':

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EquipoService } from '../services/equipos.service'; 
+import { buildAssetUrl } from '../../shared/api.config';
 
 declare var bootstrap: any;
 
@@ -82,7 +83,10 @@ export class Inventario implements OnInit {
         this.nuevoEquipo = { nombre: '', stock: 1, precio: null, medidas: '', voltaje: '110v', descripcion: '', imgUrl: '', categoria: 'Todos', destacado: false }; 
         this.archivoSeleccionado = null;
       },
-      error: () => this.mostrarError('Error al guardar el equipo.')
+      error: (err) => {
+        console.error('Error al guardar equipo:', err);
+        this.mostrarError(err?.error?.message || 'Error al guardar el equipo.');
+      }
     });
   }
 
@@ -108,7 +112,10 @@ export class Inventario implements OnInit {
         this.cerrarModal('modalEditar');
         this.cargarEquipos();
       },
-      error: () => this.mostrarError('No se pudo actualizar el registro.')
+      error: (err) => {
+        console.error('Error al actualizar equipo:', err);
+        this.mostrarError(err?.error?.message || 'No se pudo actualizar el registro.');
+      }
     });
   }
 
@@ -152,5 +159,9 @@ export class Inventario implements OnInit {
     } else {
       alert(mensaje); 
     }
+  }
+
+  getImagenUrl(path?: string | null): string {
+    return buildAssetUrl(path);
   }
 }

@@ -59,7 +59,7 @@
       <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let e of listaEquipos">
         <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden hover-lift">
           <div class="bg-light position-relative" style="height: 180px;">
-            <img [src]="e.imgUrl ? 'http://127.0.0.1:3000' + e.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
+            <img [src]="e.imgUrl ? getImagenUrl(e.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" 
                  class="w-100 h-100" style="object-fit: cover; opacity: 0.8;" alt="Foto equipo">
             <span class="badge position-absolute top-0 end-0 m-2 px-3 py-2 rounded-pill shadow-sm"
                   [ngClass]="e.stock > 0 ? 'bg-success' : 'bg-danger'">
@@ -245,7 +245,7 @@
           <div class="col-md-5 text-center">
             <label class="fw-bold small text-secondary mb-1 d-block">Imagen Actual / Nueva</label>
             <div class="bg-dark rounded-4 mb-3 overflow-hidden position-relative" style="height: 180px; cursor: pointer;" (click)="fileEdit.click()">
-              <img [src]="equipoSeleccionado?.imgUrl ? 'http://127.0.0.1:3000' + equipoSeleccionado.imgUrl : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" class="w-100 h-100" style="object-fit: cover; opacity: 0.7;">
+              <img [src]="equipoSeleccionado?.imgUrl ? getImagenUrl(equipoSeleccionado.imgUrl) : 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?auto=format&fit=crop&w=400&q=80'" class="w-100 h-100" style="object-fit: cover; opacity: 0.7;">
               <div class="position-absolute top-50 start-50 translate-middle text-white">
                 <i class="bi bi-camera-fill fs-2"></i>
                 <p class="small fw-bold">Cambiar</p>

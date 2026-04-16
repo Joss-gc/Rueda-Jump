@@ -6,19 +6,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 
 import { ClienteService } from '../../admin/services/cliente.service'; 
+import { buildApiUrl, buildAssetUrl } from '../../shared/api.config';
 
 declare var bootstrap: any; 
 
 @Injectable({ providedIn: 'root' })
 export class ReservaService {
-  private apiUrl = 'http://127.0.0.1:3000/api/reservas';
+  private apiUrl = buildApiUrl('/api/reservas');
   constructor(private http: HttpClient) { }
   agregarReserva(reserva: any): Observable<any> { return this.http.post(this.apiUrl, reserva); }
 }
 
 @Injectable({ providedIn: 'root' })
 export class EquipoService {
-  private apiUrl = 'http://127.0.0.1:3000/api/equipos'; 
+  private apiUrl = buildApiUrl('/api/equipos'); 
   constructor(private http: HttpClient) { }
   getEquipos(): Observable<any[]> { return this.http.get<any[]>(this.apiUrl); }
 }
@@ -209,5 +210,9 @@ export class Home implements OnInit {
 
   irYAbrirCatalogo(idProducto: string) {
     this.router.navigate(['/catalogo'], { queryParams: { abrir: idProducto } });
+  }
+
+  getImagenUrl(path?: string | null): string {
+    return buildAssetUrl(path);
   }
 }
